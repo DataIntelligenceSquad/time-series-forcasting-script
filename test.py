@@ -44,31 +44,26 @@ series, data, label = load_data(args.data_path)
 # data['value'] = scaler.fit_transform(data['value'].values.reshape(-1, 1))
 
 # Perform predictions
-predictions = model.predict(len(data))
+predictions = model.predict(len(label))
 
 # # Denormalize the predictions
 # predictions = scaler.inverse_transform(predictions.pd_dataframe()['value'].values.reshape(-1, 1))
 
-
-# Plot predictions and labels
-plt.figure(figsize=(10, 6))
-plt.plot(series.time_index, series.values(), label='Label')
-plt.plot(series.time_index[-len(predictions):], predictions, label='Prediction')
-plt.xlabel('Time')
-plt.ylabel('Value')
-plt.title('Predictions vs Labels')
+series.plot()
+predictions.plot(label="forecast", low_quantile=0.05, high_quantile=0.95)
 plt.legend()
-plt.grid(True)
+
+
+# Save the plot as an image
+plt.savefig('predictions_plot.png')
+plt.show()
 
 # Compute MSE and MAE
-mse = mean_squared_error(series.values()[-len(predictions):], predictions)
-mae = mean_absolute_error(series.values()[-len(predictions):], predictions)
+mse = mean_squared_error(series[-len(predictions):], predictions)
+mae = mean_absolute_error(series[-len(predictions):], predictions)
 
 # Print MSE and MAE
 print(f'MSE: {mse:.4f}')
 print(f'MAE: {mae:.4f}')
 
-# Save the plot as an image
-plt.savefig('predictions_plot.png')
-plt.show()
 
