@@ -21,13 +21,15 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
     # Create the model based on the model_name argument
     if model_name == "FFT":
         model = FFT()
+        # Fit the model
+        model.fit(train)
     elif model_name == "TCN":
         model = TCNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+        # Fit the model
+        model.fit(train, epochs = num_epochs, verbose = verbose)
     else:
         raise ValueError("Invalid model name. Supported models: FFT, TCN")
 
-    # Fit the model
-    model.fit(train, epochs=num_epochs, verbose=verbose)
 
     # Save the trained model
     model.save(output_path)
