@@ -48,7 +48,8 @@ def load_data(data_path):
     series, data, label = series[-200:], series[-200:-48], series[-48:]
     return series, data, label
 
-
+input_chunk_size = args.input_chunk_size
+output_chunk_size = args.output_chunk_size
 # Load the trained model
 model_name = args.model_name
 if model_name == "FFT":
