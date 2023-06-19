@@ -5,7 +5,11 @@ data_path="dataset/gold_price_hourly.csv"
 output_path="checkpoints/model.pkl"
 
 # Set the model name and other parameters
-model_name="TCN"
+# Current can not run VARIMA
+# TCNModel,VARIMA,KalmanForecaster,RegressionModel,LinearRegressionModel,
+# LightGBMModel, CatBoostModel, XGBModel,RNNModel,BlockRNNModel,
+# NBEATSModel, NHiTSModel,TransformerModel,TFTModel,DLinearModel,NLinearModel,
+model_name="TransformerModel"
 input_chunk_size=96
 output_chunk_size=48
 num_epochs=10

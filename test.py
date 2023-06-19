@@ -4,7 +4,25 @@ import argparse
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from darts import TimeSeries
-from darts.models import FFT, TCNModel
+from darts.models import (
+    FFT,
+    TCNModel,
+    VARIMA,
+    KalmanForecaster,
+    RegressionModel,
+    LinearRegressionModel,
+    LightGBMModel,
+    CatBoostModel,
+    XGBModel,
+    RNNModel,
+    BlockRNNModel,
+    NBEATSModel,
+    NHiTSModel,
+    TransformerModel,
+    TFTModel,
+    DLinearModel,
+    NLinearModel,
+)
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser(description='Testing script for predictions')
@@ -13,6 +31,7 @@ parser.add_argument('--model_path', type=str, help='Path to the trained model')
 parser.add_argument('--data_path', type=str, help='Path to the data file')
 parser.add_argument("--input_chunk_size", type=int, default=24, help="Size of the input chunk for TCNModel. Default is 24.")
 parser.add_argument("--output_chunk_size", type=int, default=12, help="Size of the output chunk for TCNModel. Default is 12.")
+parser.add_argument("--target", type=str, help="Target to visualise")
 args = parser.parse_args()
 
 def load_data(data_path):
@@ -36,6 +55,36 @@ if model_name == "FFT":
         model = FFT()
 elif model_name == "TCN":
     model = TCNModel(input_chunk_length=args.input_chunk_size, output_chunk_length=args.output_chunk_size)
+elif model_name == "VARIMA":
+        model = VARIMA()
+elif model_name == "KalmanForecaster":
+    model = KalmanForecaster()
+elif model_name == "RegressionModel":
+    model = RegressionModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "LinearRegressionModel":
+    model = LinearRegressionModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "LightGBMModel":
+    model = LightGBMModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "CatBoostModel":
+    model = CatBoostModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "XGBModel":
+    model = XGBModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "RNNModel":
+    model = RNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "BlockRNNModel":
+    model = BlockRNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "NBEATSModel":
+    model = NBEATSModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "NHiTSModel":
+    model = NHiTSModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "TransformerModel":
+    model = TransformerModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "TFTModel":
+    model = TFTModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "DLinearModel":
+    model = DLinearModel()
+elif model_name == "NLinearModel":
+    model = NLinearModel()
 else:
     raise ValueError("Invalid model name. Supported models: FFT, TCN")
 model = model.load(args.model_path)
@@ -52,8 +101,8 @@ predictions = model.predict(len(label))
 # # Denormalize the predictions
 # predictions = scaler.inverse_transform(predictions.pd_dataframe()['value'].values.reshape(-1, 1))
 
-series['Volume'].plot()
-predictions['Volume'].plot(label="forecast", low_quantile=0.05, high_quantile=0.95)
+series[args.target].plot()
+predictions[args.target].plot(label="forecast", low_quantile=0.05, high_quantile=0.95)
 plt.legend()
 
 
