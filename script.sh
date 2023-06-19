@@ -6,8 +6,8 @@ output_path="checkpoints/model.pkl"
 
 # Set the model name and other parameters
 model_name="TCN"
-input_chunk_size=24
-output_chunk_size=12
+input_chunk_size=96
+output_chunk_size=48
 num_epochs=10
 verbose="--verbose"  # Uncomment this line to enable verbose output
 
