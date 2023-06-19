@@ -19,8 +19,10 @@ def load_data(data_path):
     # Read a pandas DataFrame
     df = pd.read_csv(data_path, delimiter=",")
 
+    df = df.drop('SYMBOL', axis = 1)
+
     # Create a TimeSeries, specifying the time and value columns
-    series = TimeSeries.from_dataframe(df, "date", "Volume")
+    series = TimeSeries.from_dataframe(df, time_col = "date", fill_missing_dates=True, freq='H')
 
     # Set aside the last 36 months as a validation series
     series, data, label = series[-36:], series[-36:-12], series[-12:]
@@ -58,12 +60,12 @@ plt.legend()
 plt.savefig('predictions_plot.png')
 plt.show()
 
-# Compute MSE and MAE
-mse = mean_squared_error(series[-len(predictions):], predictions)
-mae = mean_absolute_error(series[-len(predictions):], predictions)
+# # Compute MSE and MAE
+# mse = mean_squared_error(series[-len(predictions):], predictions)
+# mae = mean_absolute_error(series[-len(predictions):], predictions)
 
-# Print MSE and MAE
-print(f'MSE: {mse:.4f}')
-print(f'MAE: {mae:.4f}')
+# # Print MSE and MAE
+# print(f'MSE: {mse:.4f}')
+# print(f'MAE: {mae:.4f}')
 
 

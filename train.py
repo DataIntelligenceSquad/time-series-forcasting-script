@@ -2,13 +2,16 @@ import argparse
 from darts.models import FFT, TCNModel
 import pandas as pd
 from darts import TimeSeries
+import os
+
 
 def load_data(data_path):
     # Read a pandas DataFrame
     df = pd.read_csv(data_path, delimiter=",")
+    df = df.drop('SYMBOL', axis = 1)
 
     # Create a TimeSeries, specifying the time and value columns
-    series = TimeSeries.from_dataframe(df, "date", "Volume")
+    series = TimeSeries.from_dataframe(df, time_col = "date", fill_missing_dates=True, freq='H')
 
     # Set aside the last 36 months as a validation series
     train, val = series[:-12], series[-12:]
@@ -30,7 +33,9 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
     else:
         raise ValueError("Invalid model name. Supported models: FFT, TCN")
 
-
+    if not os.path.exists("checkpoints"):
+        # Tạo thư mục "checkpoints"
+        os.makedirs("checkpoints")
     # Save the trained model
     model.save(output_path)
 
