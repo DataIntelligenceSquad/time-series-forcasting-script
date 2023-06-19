@@ -19,13 +19,14 @@ def load_data(data_path):
     # Read a pandas DataFrame
     df = pd.read_csv(data_path, delimiter=",")
 
-    df = df.drop('SYMBOL', axis = 1)
+    if 'SYMBOL' in df.columns:
+        df = df.drop('SYMBOL', axis = 1)
 
     # Create a TimeSeries, specifying the time and value columns
     series = TimeSeries.from_dataframe(df, time_col = "date", fill_missing_dates=True, freq='H')
 
     # Set aside the last 36 months as a validation series
-    series, data, label = series[-36:], series[-36:-12], series[-12:]
+    series, data, label = series[-200:], series[-200:-48], series[-48:]
     return series, data, label
 
 
@@ -51,8 +52,8 @@ predictions = model.predict(len(label))
 # # Denormalize the predictions
 # predictions = scaler.inverse_transform(predictions.pd_dataframe()['value'].values.reshape(-1, 1))
 
-# series['LABEL'].plot()
-predictions['LABEL'].plot(label="forecast", low_quantile=0.05, high_quantile=0.95)
+series['Volume'].plot()
+predictions['Volume'].plot(label="forecast", low_quantile=0.05, high_quantile=0.95)
 plt.legend()
 
 
