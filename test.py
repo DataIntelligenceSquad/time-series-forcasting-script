@@ -51,8 +51,8 @@ predictions = model.predict(len(label))
 # # Denormalize the predictions
 # predictions = scaler.inverse_transform(predictions.pd_dataframe()['value'].values.reshape(-1, 1))
 
-series.plot()
-predictions.plot(label="forecast", low_quantile=0.05, high_quantile=0.95)
+# series['LABEL'].plot()
+predictions['LABEL'].plot(label="forecast", low_quantile=0.05, high_quantile=0.95)
 plt.legend()
 
 
