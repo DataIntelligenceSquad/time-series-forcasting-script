@@ -37,26 +37,42 @@ parser.add_argument("--target", type=str, help="Target to visualise")
 parser.add_argument("--test_predict", type=int, default=48, help="Size of the predict to test")
 parser.add_argument("--future_predict", type=int, default=48, help="Size of the predict to future")
 parser.add_argument("--series_visualize", type=int, default=200, help="To visualize the whole test series")
+parser.add_argument("--future_only", type=bool, default=False, help="Preidict future.")
 
 args = parser.parse_args()
 scaler = Scaler()
 
+# def load_data(data_path):
+#     # Read a pandas DataFrame
+#     df = pd.read_csv(data_path, delimiter=",")
+
+#     if 'SYMBOL' in df.columns:
+#         df = df.drop('SYMBOL', axis = 1)
+
+#     # Create a TimeSeries, specifying the time and value columns
+#     series = TimeSeries.from_dataframe(df, time_col = "date", fill_missing_dates=True, freq='H')
+#     series = fill_missing_values(series, fill='auto')
+
+#     # Set aside the last 36 months as a validation series
+#     series, data = series[-args.series_visualize:], series[-args.series_visualize:-args.test_predict]
+#     data = scaler.fit_transform(data)
+#     series = scaler.transform(series)
+#     return series, data
+
 def load_data(data_path):
     # Read a pandas DataFrame
     df = pd.read_csv(data_path, delimiter=",")
-
     if 'SYMBOL' in df.columns:
         df = df.drop('SYMBOL', axis = 1)
 
     # Create a TimeSeries, specifying the time and value columns
     series = TimeSeries.from_dataframe(df, time_col = "date", fill_missing_dates=True, freq='H')
     series = fill_missing_values(series, fill='auto')
+    # val = val.fillna('ffill')
 
     # Set aside the last 36 months as a validation series
-    series, data = series[-args.series_visualize:], series[-args.series_visualize:-args.test_predict]
-    data = scaler.fit_transform(data)
-    series = scaler.transform(series)
-    return series, data
+    train, val = series[:-args.series_visualize], series[-args.series_visualize:]
+    return train, val, series
 
 input_chunk_size = args.input_chunk_size
 output_chunk_size = args.output_chunk_size
@@ -103,23 +119,26 @@ else:
     raise ValueError("Invalid model name. Supported models: FFT, TCN")
 model = model.load(args.model_path)
 # Load the data
-series, data = load_data(args.data_path)
-
-# # Normalize the data (using the same scaler as during training)
-# scaler = MinMaxScaler()
-# data['value'] = scaler.fit_transform(data['value'].values.reshape(-1, 1))
+train, val,series = load_data(args.data_path)
+train = scaler.fit_transform(train)
+val = scaler.transform(val)
 
 # Perform predictions
-predictions = model.predict(args.test_predict + args.future_predict)
+# predictions = model.predict(args.test_predict + args.future_predict)
+print(args.future_only)
+if args.future_only:
+    predictions = model.predict(series = val, n = args.future_predict)
+else:
+    predictions = model.predict(series = train, n = args.test_predict)
 
 
-series = scaler.inverse_transform(series)
+# series = scaler.inverse_transform(train)[-args.series_visualize:]
 predictions = scaler.inverse_transform(predictions)
 
 # # Denormalize the predictions
 # predictions = scaler.inverse_transform(predictions.pd_dataframe()['value'].values.reshape(-1, 1))
 
-series[args.target].plot()
+series[args.target][-args.series_visualize:].plot()
 predictions[args.target].plot(label="forecast", low_quantile=0.05, high_quantile=0.95)
 plt.legend()
 

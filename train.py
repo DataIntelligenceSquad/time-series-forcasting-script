@@ -24,7 +24,7 @@ from darts.models import (
     NLinearModel,
 )
 
-
+scaler = Scaler()
 def load_data(data_path):
     # Read a pandas DataFrame
     df = pd.read_csv(data_path, delimiter=",")
@@ -38,7 +38,6 @@ def load_data(data_path):
 
     # Set aside the last 36 months as a validation series
     train, val = series[:-args.val_predict], series[-args.val_predict:]
-    scaler = Scaler()
     train = scaler.fit_transform(train)
     val = scaler.transform(val)
     series = scaler.transform(series)
