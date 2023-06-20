@@ -3,6 +3,7 @@ import pandas as pd
 from darts import TimeSeries
 import os
 from darts.dataprocessing.transformers import Scaler
+from darts.utils.missing_values import fill_missing_values
 from darts.models import (
     FFT,
     TCNModel,
@@ -31,7 +32,8 @@ def load_data(data_path):
         df = df.drop('SYMBOL', axis = 1)
 
     # Create a TimeSeries, specifying the time and value columns
-    series = TimeSeries.from_dataframe(df, time_col = "date", fill_missing_dates=True, freq='H', fillna_value=0.5)
+    series = TimeSeries.from_dataframe(df, time_col = "date", fill_missing_dates=True, freq='H')
+    series = fill_missing_values(series, fill='auto')
     # val = val.fillna('ffill')
 
     # Set aside the last 36 months as a validation series

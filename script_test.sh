@@ -5,3 +5,6 @@ python test.py \
  --input_chunk_size 24 \
  --output_chunk_size 12 \
  --target LABEL \
+ --future_predict 48 \
+ --test_predict 48 \
+ --series_visualize 200 \
