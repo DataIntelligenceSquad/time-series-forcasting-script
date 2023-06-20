@@ -127,7 +127,7 @@ val = scaler.transform(val)
 
 # Perform predictions
 # predictions = model.predict(args.test_predict + args.future_predict)
-print(args.future_only)
+# print(args.future_only)
 if args.future_only:
     predictions = model.predict(series = val, n = args.future_predict)
 else:
