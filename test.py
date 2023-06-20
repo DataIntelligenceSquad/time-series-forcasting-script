@@ -124,7 +124,7 @@ elif model_name == "TFTModel":
 elif model_name == "DLinearModel":
     model = DLinearModel()
 elif model_name == "NLinearModel":
-    model = NLinearModel()
+    model = NLinearModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
 else:
     raise ValueError("Invalid model name. Supported models: FFT, TCN")
 model = model.load(args.model_path)
