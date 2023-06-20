@@ -95,9 +95,9 @@ elif model_name == "LinearRegressionModel":
 elif model_name == "LightGBMModel":
     model = LightGBMModel(lags=48, output_chunk_length = args.output_chunk_sỉze)
 elif model_name == "CatBoostModel":
-    model = CatBoostModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+    model = CatBoostModel(lags=48, output_chunk_length = args.output_chunk_sỉze)
 elif model_name == "XGBModel":
-    model = XGBModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+    model = XGBModel(lags=48, output_chunk_length = args.output_chunk_sỉze)
 elif model_name == "RNNModel":
     model = RNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
 elif model_name == "BlockRNNModel":
