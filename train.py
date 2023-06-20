@@ -128,7 +128,7 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
         # Fit the model
         model.fit(train, epochs=num_epochs, verbose=verbose)
     elif model_name == "DLinearModel":
-        model = DLinearModel()
+        model = DLinearModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
         # Fit the model
         model.fit(train)
     elif model_name == "NLinearModel":
