@@ -74,15 +74,15 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
         # Fit the model
         model.fit(train)
     elif model_name == "RegressionModel":
-        model = RegressionModel(lags=48)
+        model = RegressionModel(lags=48, output_chunk_length = args.output_chunk_size)
         # Fit the model
         model.fit(train)
     elif model_name == "LinearRegressionModel":
-        model = LinearRegressionModel(lags=48)
+        model = LinearRegressionModel(lags=48, output_chunk_length = args.output_chunk_size)
         # Fit the model
         model.fit(train)
     elif model_name == "LightGBMModel":
-        model = LightGBMModel(lags=48)
+        model = LightGBMModel(lags=48, output_chunk_length = args.output_chunk_size)
         # Fit the model
         model.fit(train)
     elif model_name == "CatBoostModel":

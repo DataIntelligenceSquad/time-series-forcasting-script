@@ -89,11 +89,11 @@ elif model_name == "VARIMA":
 elif model_name == "KalmanForecaster":
     model = KalmanForecaster()
 elif model_name == "RegressionModel":
-    model = RegressionModel(lags=48)
+    model = RegressionModel(lags=48, output_chunk_length = args.output_chunk_size)
 elif model_name == "LinearRegressionModel":
-    model = LinearRegressionModel(lags=48)
+    model = LinearRegressionModel(lags=48, output_chunk_length = args.output_chunk_size)
 elif model_name == "LightGBMModel":
-    model = LightGBMModel(lags=48)
+    model = LightGBMModel(lags=48, output_chunk_length = args.output_chunk_sỉze)
 elif model_name == "CatBoostModel":
     model = CatBoostModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
 elif model_name == "XGBModel":
