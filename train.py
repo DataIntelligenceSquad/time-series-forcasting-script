@@ -37,7 +37,7 @@ def load_data(data_path):
     # val = val.fillna('ffill')
 
     # Set aside the last 36 months as a validation series
-    train, val = series[:-48], series[-48:]
+    train, val = series[:-args.val_predict], series[-args.val_predict:]
     scaler = Scaler()
     train = scaler.fit_transform(train)
     val = scaler.transform(val)
@@ -47,8 +47,8 @@ def load_data(data_path):
 def train_model(model_name, data_path, output_path, input_chunk_size, output_chunk_size, num_epochs, verbose):
     # Load the dataset
     train, val = load_data(data_path)
-    print("Train: ", train)
-    print("Val: ", val)
+    # print("Train: ", train)
+    # print("Val: ", val)
 
     # Create the model based on the model_name argument
     if model_name == "FFT":
@@ -141,6 +141,7 @@ if __name__ == "__main__":
     parser.add_argument("--output_chunk_size", type=int, default=12, help="Size of the output chunk for TCNModel. Default is 12.")
     parser.add_argument("--num_epochs", type=int, default=400, help="Number of training epochs. Default is 400.")
     parser.add_argument("--verbose", action="store_true", help="Enable verbose training output.")
+    parser.add_argument("--val_predict", type=int, default=48, help="Size of the val")
 
     # Parse the arguments
     args = parser.parse_args()

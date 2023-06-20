@@ -13,6 +13,7 @@ model_name="TransformerModel"
 input_chunk_size=96
 output_chunk_size=48
 num_epochs=10
+val_predict=48
 verbose="--verbose"  # Uncomment this line to enable verbose output
 
 # Run the training script
@@ -20,4 +21,5 @@ python train.py "$model_name" "$data_path" "$output_path" \
     --input_chunk_size "$input_chunk_size" \
     --output_chunk_size "$output_chunk_size" \
     --num_epochs "$num_epochs" \
+    --val_predict "$val_predict"
     $verbose
