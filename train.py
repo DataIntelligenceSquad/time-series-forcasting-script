@@ -86,11 +86,11 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
         # Fit the model
         model.fit(train)
     elif model_name == "CatBoostModel":
-        model = CatBoostModel(lags=48, output_chunk_length = args.output_chunk_sỉze)
+        model = CatBoostModel(lags=48, output_chunk_length = args.output_chunk_size)
         # Fit the model
         model.fit(train)
     elif model_name == "XGBModel":
-        model = XGBModel(lags=48, output_chunk_length = args.output_chunk_sỉze)
+        model = XGBModel(lags=48, output_chunk_length = args.output_chunk_size)
         # Fit the model
         model.fit(train)
     elif model_name == "RNNModel":

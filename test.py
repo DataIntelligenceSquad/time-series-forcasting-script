@@ -93,11 +93,11 @@ elif model_name == "RegressionModel":
 elif model_name == "LinearRegressionModel":
     model = LinearRegressionModel(lags=48, output_chunk_length = args.output_chunk_size)
 elif model_name == "LightGBMModel":
-    model = LightGBMModel(lags=48, output_chunk_length = args.output_chunk_sỉze)
+    model = LightGBMModel(lags=48, output_chunk_length = args.output_chunk_size)
 elif model_name == "CatBoostModel":
-    model = CatBoostModel(lags=48, output_chunk_length = args.output_chunk_sỉze)
+    model = CatBoostModel(lags=48, output_chunk_length = args.output_chunk_size)
 elif model_name == "XGBModel":
-    model = XGBModel(lags=48, output_chunk_length = args.output_chunk_sỉze)
+    model = XGBModel(lags=48, output_chunk_length = args.output_chunk_size)
 elif model_name == "RNNModel":
     model = RNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
 elif model_name == "BlockRNNModel":
