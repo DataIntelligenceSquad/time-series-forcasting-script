@@ -7,6 +7,7 @@ from sklearn.preprocessing import MinMaxScaler
 from darts import TimeSeries
 from darts.dataprocessing.transformers import Scaler
 from darts.utils.missing_values import fill_missing_values
+import os
 from darts.models import (
     FFT,
     TCNModel,
@@ -154,7 +155,10 @@ plt.legend()
 
 
 # Save the plot as an image
-plt.savefig('predictions_plot.png')
+if not os.path.exists("test_result"):
+    # Tạo thư mục "test_result"
+    os.makedirs("test_result")
+plt.savefig('test_result/predictions_' + args.model_name + '_mape'+ str(mape)+ '_mse'+ str(mse)+ '_mae'+ str(mae)+ '.png')
 plt.show()
 
 
