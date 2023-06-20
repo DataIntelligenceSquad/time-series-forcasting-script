@@ -4,6 +4,7 @@ import argparse
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from darts import TimeSeries
+from darts.dataprocessing.transformers import Scaler
 from darts.models import (
     FFT,
     TCNModel,
@@ -33,6 +34,7 @@ parser.add_argument("--input_chunk_size", type=int, default=24, help="Size of th
 parser.add_argument("--output_chunk_size", type=int, default=12, help="Size of the output chunk for TCNModel. Default is 12.")
 parser.add_argument("--target", type=str, help="Target to visualise")
 args = parser.parse_args()
+scaler = Scaler()
 
 def load_data(data_path):
     # Read a pandas DataFrame
@@ -44,8 +46,12 @@ def load_data(data_path):
     # Create a TimeSeries, specifying the time and value columns
     series = TimeSeries.from_dataframe(df, time_col = "date", fill_missing_dates=True, freq='H')
 
+
     # Set aside the last 36 months as a validation series
     series, data, label = series[-200:], series[-200:-48], series[-48:]
+    data = scaler.fit_transform(data)
+    series = scaler.transform(series)
+    label = scaler.transform(label)
     return series, data, label
 
 input_chunk_size = args.input_chunk_size
@@ -98,6 +104,8 @@ series, data, label = load_data(args.data_path)
 
 # Perform predictions
 predictions = model.predict(len(label))
+series = scaler.inverse_transform(series)
+predictions = scaler.inverse_transform(predictions)
 
 # # Denormalize the predictions
 # predictions = scaler.inverse_transform(predictions.pd_dataframe()['value'].values.reshape(-1, 1))

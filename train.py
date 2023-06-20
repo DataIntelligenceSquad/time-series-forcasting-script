@@ -2,6 +2,7 @@ import argparse
 import pandas as pd
 from darts import TimeSeries
 import os
+from darts.dataprocessing.transformers import Scaler
 from darts.models import (
     FFT,
     TCNModel,
@@ -30,15 +31,22 @@ def load_data(data_path):
         df = df.drop('SYMBOL', axis = 1)
 
     # Create a TimeSeries, specifying the time and value columns
-    series = TimeSeries.from_dataframe(df, time_col = "date", fill_missing_dates=True, freq='H')
+    series = TimeSeries.from_dataframe(df, time_col = "date", fill_missing_dates=True, freq='H', fillna_value=0.5)
+    # val = val.fillna('ffill')
 
     # Set aside the last 36 months as a validation series
     train, val = series[:-48], series[-48:]
+    scaler = Scaler()
+    train = scaler.fit_transform(train)
+    val = scaler.transform(val)
+    series = scaler.transform(series)
     return train, val
 
 def train_model(model_name, data_path, output_path, input_chunk_size, output_chunk_size, num_epochs, verbose):
     # Load the dataset
     train, val = load_data(data_path)
+    print("Train: ", train)
+    print("Val: ", val)
 
     # Create the model based on the model_name argument
     if model_name == "FFT":
@@ -94,7 +102,24 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
         # Fit the model
         model.fit(train, epochs=num_epochs, verbose=verbose)
     elif model_name == "TransformerModel":
-        model = TransformerModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+        model = my_model_sp = TransformerModel(
+            batch_size=32,
+            input_chunk_length=args.input_chunk_size,
+            output_chunk_length=args.output_chunk_size,
+            n_epochs=20,
+            model_name="transformer",
+            nr_epochs_val_period=5,
+            d_model=16,
+            nhead=4,
+            num_encoder_layers=2,
+            num_decoder_layers=2,
+            dim_feedforward=128,
+            dropout=0.1,
+            random_state=42,
+            optimizer_kwargs={"lr": 1e-3},
+            save_checkpoints=True,
+            force_reset=True,
+        )
         # Fit the model
         model.fit(train, epochs=num_epochs, verbose=verbose)
     elif model_name == "TFTModel":

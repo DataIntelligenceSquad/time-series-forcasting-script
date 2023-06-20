@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the paths and filenames
-data_path="dataset/gold_price_hourly.csv"
+data_path="dataset/Final_nasdaq_gold_btc.csv"
 output_path="checkpoints/model.pkl"
 
 # Set the model name and other parameters
