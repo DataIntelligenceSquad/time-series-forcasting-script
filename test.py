@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import argparse
+from darts.metrics import mape, mse, mae
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from darts import TimeSeries
@@ -119,7 +120,7 @@ else:
     raise ValueError("Invalid model name. Supported models: FFT, TCN")
 model = model.load(args.model_path)
 # Load the data
-train, val,series = load_data(args.data_path)
+train, val, series = load_data(args.data_path)
 train = scaler.fit_transform(train)
 val = scaler.transform(val)
 
@@ -134,6 +135,15 @@ else:
 
 # series = scaler.inverse_transform(train)[-args.series_visualize:]
 predictions = scaler.inverse_transform(predictions)
+# Tính toán MAPE
+mape = mape(series[-len(predictions):][args.target], predictions[args.target])
+mse = mse(series[-len(predictions):][args.target], predictions[args.target])
+mae = mae(series[-len(predictions):][args.target], predictions[args.target])
+
+# In kết quả
+print(f'MAPE: {mape:.4f}')
+print(f'MSE: {mse:.4f}')
+print(f'MAE: {mae:.4f}')
 
 # # Denormalize the predictions
 # predictions = scaler.inverse_transform(predictions.pd_dataframe()['value'].values.reshape(-1, 1))
