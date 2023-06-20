@@ -21,5 +21,5 @@ python train.py "$model_name" "$data_path" "$output_path" \
     --input_chunk_size "$input_chunk_size" \
     --output_chunk_size "$output_chunk_size" \
     --num_epochs "$num_epochs" \
-    --val_predict "$val_predict"
+    --val_predict "$val_predict" \
     $verbose
