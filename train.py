@@ -82,7 +82,7 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
         # Fit the model
         model.fit(train)
     elif model_name == "LightGBMModel":
-        model = LightGBMModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+        model = LightGBMModel(lags=48)
         # Fit the model
         model.fit(train)
     elif model_name == "CatBoostModel":
