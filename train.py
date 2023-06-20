@@ -93,8 +93,16 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
         model = XGBModel(lags=48, output_chunk_length = args.output_chunk_size)
         # Fit the model
         model.fit(train)
-    elif model_name == "RNNModel":
-        model = RNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+    elif model_name == "RNNModel_rnn":
+        model = RNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'RNN')
+        # Fit the model
+        model.fit(train, epochs=num_epochs, verbose=verbose)
+    elif model_name == "RNNModel_lstm":
+        model = RNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'LSTM')
+        # Fit the model
+        model.fit(train, epochs=num_epochs, verbose=verbose)
+    elif model_name == "RNNModel_gru":
+        model = RNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'GRU')
         # Fit the model
         model.fit(train, epochs=num_epochs, verbose=verbose)
     elif model_name == "BlockRNNModel":
