@@ -102,23 +102,9 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
         # Fit the model
         model.fit(train, epochs=num_epochs, verbose=verbose)
     elif model_name == "TransformerModel":
-        model = my_model_sp = TransformerModel(
-            batch_size=32,
+        model = TransformerModel(
             input_chunk_length=args.input_chunk_size,
             output_chunk_length=args.output_chunk_size,
-            n_epochs=20,
-            model_name="transformer",
-            nr_epochs_val_period=5,
-            d_model=16,
-            nhead=4,
-            num_encoder_layers=2,
-            num_decoder_layers=2,
-            dim_feedforward=128,
-            dropout=0.1,
-            random_state=42,
-            optimizer_kwargs={"lr": 1e-3},
-            save_checkpoints=True,
-            force_reset=True,
         )
         # Fit the model
         model.fit(train, epochs=num_epochs, verbose=verbose)

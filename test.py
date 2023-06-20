@@ -85,7 +85,10 @@ elif model_name == "NBEATSModel":
 elif model_name == "NHiTSModel":
     model = NHiTSModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
 elif model_name == "TransformerModel":
-    model = TransformerModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+    model = model = TransformerModel(
+            input_chunk_length=args.input_chunk_size,
+            output_chunk_length=args.output_chunk_size,
+        )
 elif model_name == "TFTModel":
     model = TFTModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
 elif model_name == "DLinearModel":
