@@ -25,6 +25,13 @@ from darts.models import (
 )
 
 scaler = Scaler()
+add_encoders={
+            'cyclic': {'future': ['month']},
+            'datetime_attribute': {'future': ['hour', 'dayofweek']},
+            'position': {'past': ['relative'], 'future': ['relative']},
+            'custom': {'past': [lambda idx: (idx.year - 2019) / 50]},
+            'transformer': Scaler()
+        }
 def load_data(data_path):
     # Read a pandas DataFrame
     df = pd.read_csv(data_path, delimiter=",")
@@ -110,7 +117,14 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
         # Fit the model
         model.fit(train, epochs=num_epochs, verbose=verbose)
     elif model_name == "TFTModel":
-        model = TFTModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+        # add_encoders={
+        #     'cyclic': {'future': ['month']},
+        #     'datetime_attribute': {'future': ['hour', 'dayofweek']},
+        #     'position': {'past': ['relative'], 'future': ['relative']},
+        #     'custom': {'past': [lambda idx: (idx.year - 1950) / 50]},
+        #     'transformer': Scaler()
+        # }
+        model = TFTModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, add_encoders = add_encoders)
         # Fit the model
         model.fit(train, epochs=num_epochs, verbose=verbose)
     elif model_name == "DLinearModel":
