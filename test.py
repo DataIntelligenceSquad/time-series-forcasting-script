@@ -104,8 +104,12 @@ elif model_name == "RNNModel_lstm":
     model = RNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'LSTM')
 elif model_name == "RNNModel_gru":
     model = RNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'GRU')
-elif model_name == "BlockRNNModel":
-    model = BlockRNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+elif model_name == "BlockRNNModel_rnn":
+    model = BlockRNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'RNN')
+elif model_name == "BlockRNNModel_lstm":
+    model = BlockRNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'LSTM')
+elif model_name == "BlockRNNModel_gru":
+    model = BlockRNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'GRU')
 elif model_name == "NBEATSModel":
     model = NBEATSModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
 elif model_name == "NHiTSModel":

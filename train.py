@@ -105,8 +105,16 @@ def train_model(model_name, data_path, output_path, input_chunk_size, output_chu
         model = RNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'GRU')
         # Fit the model
         model.fit(train, epochs=num_epochs, verbose=verbose)
-    elif model_name == "BlockRNNModel":
-        model = BlockRNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size)
+    elif model_name == "BlockRNNModel_rnn":
+        model = BlockRNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'RNN')
+        # Fit the model
+        model.fit(train, epochs=num_epochs, verbose=verbose)
+    elif model_name == "BlockRNNModel_lstm":
+        model = BlockRNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'LSTM')
+        # Fit the model
+        model.fit(train, epochs=num_epochs, verbose=verbose)
+    elif model_name == "BlockRNNModel_gru":
+        model = BlockRNNModel(input_chunk_length=input_chunk_size, output_chunk_length=output_chunk_size, model = 'GRU')
         # Fit the model
         model.fit(train, epochs=num_epochs, verbose=verbose)
     elif model_name == "NBEATSModel":

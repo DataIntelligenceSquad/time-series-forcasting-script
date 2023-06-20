@@ -6,10 +6,13 @@ output_path="checkpoints/model.pkl"
 
 # Set the model name and other parameters
 # Current can not run VARIMA
-# TCNModel,VARIMA,KalmanForecaster,RegressionModel,LinearRegressionModel,
-# LightGBMModel, CatBoostModel, XGBModel,RNNModel,BlockRNNModel,
-# NBEATSModel, NHiTSModel,TransformerModel,TFTModel,DLinearModel,NLinearModel,
-model_name="TransformerModel"
+# KalmanForecaster,RegressionModel,LinearRegressionModel,
+# LightGBMModel, CatBoostModel, XGBModel,
+# RNNModel_rnn,RNNModel_lstm, RNNModel_gru, BlockRNNModel_rnn, BlockRNNModel_lstm, BlockRNNModel_gru,
+# TCN
+# NBEATSModel, NHiTSModel,TransformerModel,TFTModel
+# DLinearModel,NLinearModel,
+model_name="BlockRNNModel_rnn"
 input_chunk_size=96
 output_chunk_size=48
 num_epochs=10
