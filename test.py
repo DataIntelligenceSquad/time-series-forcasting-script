@@ -129,7 +129,7 @@ print(args.future_only)
 if args.future_only:
     predictions = model.predict(series = val, n = args.future_predict)
 else:
-    predictions = model.predict(series = train, n = args.test_predict)
+    predictions = model.predict(n = args.test_predict)
 
 
 # series = scaler.inverse_transform(train)[-args.series_visualize:]
