@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Set the paths and filenames
-data_path="dataset/Final_nasdaq_gold_btc.csv"
-output_path="checkpoints/model.pkl"
+data_path="dataset/New_Final_nasdaq_gold_btc.csv"
+model_name="XGBModel"
+output_path="checkpoints/$model_name.pkl"
 
 # Set the model name and other parameters
 # Current can not run VARIMA
@@ -12,8 +13,7 @@ output_path="checkpoints/model.pkl"
 # TCN
 # NBEATSModel, NHiTSModel,TransformerModel,TFTModel
 # DLinearModel,NLinearModel,
-model_name="BlockRNNModel_rnn"
-input_chunk_size=96
+input_chunk_size=336
 output_chunk_size=48
 num_epochs=10
 val_predict=48
